@@ -3,15 +3,23 @@ using System.Collections.Generic;
 
 namespace NotEnoughLogs {
     public class LoggerContainer<TArea> where TArea : Enum {
-        private readonly List<Logger<TArea>> loggers = new List<Logger<TArea>>();
+        private readonly List<Logger> loggers = new List<Logger>();
 
-        public void Log(TArea area, Level level, string message) {
-            foreach(Logger<TArea> logger in this.loggers) {
-                 logger.Log(area, level, message);
+        public void Log(Log log) {
+            foreach(Logger logger in this.loggers) {
+                 logger.Log(log);
             }
         }
 
-        public void RegisterLogger(Logger<TArea> logger) {
+        public void Log(TArea area, Level level, string message) {
+            this.Log(new Log {
+                Level = level,
+                Area = area,
+                Message = message,
+            });
+        }
+
+        public void RegisterLogger(Logger logger) {
             this.loggers.Add(logger);
         }
 
