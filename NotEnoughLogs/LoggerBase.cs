@@ -1,4 +1,4 @@
-using NotEnoughLogs.Data;
+using NotEnoughLogs.Definitions;
 
 namespace NotEnoughLogs {
     public abstract class LoggerBase {

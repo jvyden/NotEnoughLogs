@@ -1,4 +1,4 @@
-namespace NotEnoughLogs {
+namespace NotEnoughLogs.Definitions {
     public enum Level {
         Critical = 0,
         Error = 1,

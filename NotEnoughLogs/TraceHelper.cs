@@ -1,8 +1,7 @@
 #nullable enable
-using System;
 using System.Diagnostics;
 using System.IO;
-using NotEnoughLogs.Data;
+using NotEnoughLogs.Definitions;
 
 namespace NotEnoughLogs {
     internal static class TraceHelper {

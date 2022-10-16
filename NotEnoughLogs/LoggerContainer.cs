@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using NotEnoughLogs.Data;
+using NotEnoughLogs.Definitions;
 
 namespace NotEnoughLogs {
     public class LoggerContainer<TContext> : IDisposable where TContext : Enum {
@@ -12,8 +12,8 @@ namespace NotEnoughLogs {
         private const int logQueueDelayMs = 20;
 
         private readonly Task logQueueTask;
-        private bool stopSignal = false;
-        private int extraTraceLines;
+        private bool stopSignal;
+        private readonly int extraTraceLines;
             
         public LoggerContainer(int extraTraceLines = 0) {
             logQueueTask = Task.Factory.StartNew(() => {

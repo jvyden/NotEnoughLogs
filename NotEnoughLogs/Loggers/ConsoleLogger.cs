@@ -1,5 +1,5 @@
 using System;
-using NotEnoughLogs.Data;
+using NotEnoughLogs.Definitions;
 
 namespace NotEnoughLogs.Loggers {
     public class ConsoleLogger : LoggerBase {

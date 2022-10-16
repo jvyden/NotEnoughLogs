@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NotEnoughLogs.Data;
+using NotEnoughLogs.Definitions;
 
 namespace NotEnoughLogs.Loggers {
     public class MemoryLogger {

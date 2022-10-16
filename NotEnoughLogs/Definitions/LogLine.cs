@@ -1,6 +1,6 @@
 using System;
 
-namespace NotEnoughLogs.Data {
+namespace NotEnoughLogs.Definitions {
     public struct LogLine {
         public Enum Context;
         public Level Level;
