@@ -2,7 +2,8 @@ using NotEnoughLogs;
 using NotEnoughLogs.Example;
 using NotEnoughLogs.Loggers;
 
-var logger = new LoggerContainer<ExampleArea>();
+// It is recommended to store this statically somewhere accessible by your entire application.
+using var logger = new LoggerContainer<ExampleArea>();
 logger.RegisterLogger(new ConsoleLogger());
 
 logger.LogInfo(ExampleArea.Startup, "Welcome to NotEnoughLogs!");
@@ -16,5 +17,7 @@ var memoryLogger = new MemoryLogger();
 memoryLogger.Log(ExampleArea.Logger, Level.Info, "Things logged to the memory logger will stay in memory until they are dumped.");
 memoryLogger.DumpToContainer(logger);
 memoryLogger.Log(ExampleArea.Logger, Level.Info, "For example, the above message is logged to the console, but this will not be logged.");
+
+logger.LogInfo(ExampleArea.Logger, "test");
 
 logger.Log(memoryLogger.Logs[0]);
