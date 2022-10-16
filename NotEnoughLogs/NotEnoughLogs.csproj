@@ -16,5 +16,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageProjectUrl>https://github.com/jvyden/NotEnoughLogs</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 </Project>
