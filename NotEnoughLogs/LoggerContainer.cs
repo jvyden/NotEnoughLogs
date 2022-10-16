@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using NotEnoughLogs.Data;
 
 namespace NotEnoughLogs {
     public class LoggerContainer<TArea> : IDisposable where TArea : Enum {
@@ -30,15 +33,16 @@ namespace NotEnoughLogs {
             });
         }
 
-        public void Log(LogLine line) {
+        internal void Log(LogLine line) {
             this.logQueue.Enqueue(line);
         }
 
-        public void Log(TArea area, Level level, string message) {
+        private void log(Enum area, Level level, string message) {
             this.Log(new LogLine {
                 Level = level,
                 Area = area,
                 Message = message,
+                Trace = TraceHelper.GetTrace(),
             });
         }
 
@@ -46,12 +50,12 @@ namespace NotEnoughLogs {
             this.loggers.Add(logger);
         }
 
-        public void LogCritical(TArea area, string message) => this.Log(area, Level.Critical, message);
-        public void LogError(TArea area, string message) => this.Log(area, Level.Error, message);
-        public void LogWarning(TArea area, string message) => this.Log(area, Level.Warning, message);
-        public void LogInfo(TArea area, string message) => this.Log(area, Level.Info, message);
-        public void LogDebug(TArea area, string message) => this.Log(area, Level.Debug, message);
-        public void LogTrace(TArea area, string message) => this.Log(area, Level.Trace, message);
+        public void LogCritical(TArea area, string message) => this.log(area, Level.Critical, message);
+        public void LogError(TArea area, string message) => this.log(area, Level.Error, message);
+        public void LogWarning(TArea area, string message) => this.log(area, Level.Warning, message);
+        public void LogInfo(TArea area, string message) => this.log(area, Level.Info, message);
+        public void LogDebug(TArea area, string message) => this.log(area, Level.Debug, message);
+        public void LogTrace(TArea area, string message) => this.log(area, Level.Trace, message);
         
         public void Dispose() {
             this.stopSignal = true;
