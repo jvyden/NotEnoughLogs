@@ -1,5 +1,5 @@
 namespace NotEnoughLogs.Example {
-    public enum ExampleArea {
+    public enum ExampleContext {
         Math,
         Logger,
         Startup,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NotEnoughLogs.Data;
 
 namespace NotEnoughLogs {
-    public class LoggerContainer<TArea> : IDisposable where TArea : Enum {
+    public class LoggerContainer<TContext> : IDisposable where TContext : Enum {
         private readonly List<LoggerBase> loggers = new List<LoggerBase>();
         private readonly ConcurrentQueue<LogLine> logQueue = new ConcurrentQueue<LogLine>();
         private const int logQueueDelayMs = 20;
@@ -35,10 +35,10 @@ namespace NotEnoughLogs {
             this.logQueue.Enqueue(line);
         }
 
-        private void log(Enum area, Level level, string message) {
+        private void log(Enum context, Level level, string message) {
             this.Log(new LogLine {
                 Level = level,
-                Area = area,
+                Context = context,
                 Message = message,
                 Trace = TraceHelper.GetTrace(),
             });
@@ -48,12 +48,12 @@ namespace NotEnoughLogs {
             this.loggers.Add(logger);
         }
 
-        public void LogCritical(TArea area, string message) => this.log(area, Level.Critical, message);
-        public void LogError(TArea area, string message) => this.log(area, Level.Error, message);
-        public void LogWarning(TArea area, string message) => this.log(area, Level.Warning, message);
-        public void LogInfo(TArea area, string message) => this.log(area, Level.Info, message);
-        public void LogDebug(TArea area, string message) => this.log(area, Level.Debug, message);
-        public void LogTrace(TArea area, string message) => this.log(area, Level.Trace, message);
+        public void LogCritical(TContext context, string message) => this.log(context, Level.Critical, message);
+        public void LogError(TContext context, string message) => this.log(context, Level.Error, message);
+        public void LogWarning(TContext context, string message) => this.log(context, Level.Warning, message);
+        public void LogInfo(TContext context, string message) => this.log(context, Level.Info, message);
+        public void LogDebug(TContext context, string message) => this.log(context, Level.Debug, message);
+        public void LogTrace(TContext context, string message) => this.log(context, Level.Trace, message);
         
         public void Dispose() {
             this.stopSignal = true;

@@ -2,7 +2,7 @@ using System;
 
 namespace NotEnoughLogs.Data {
     public struct LogLine {
-        public Enum Area;
+        public Enum Context;
         public Level Level;
         public string Message;
 

@@ -11,16 +11,16 @@ namespace NotEnoughLogs.Loggers {
             this.logs.Add(line);
         }
 
-        public void Log(Enum area, Level level, string message) {
+        public void Log(Enum context, Level level, string message) {
             this.log(new LogLine {
                 Level = level,
-                Area = area,
+                Context = context,
                 Message = message,
                 Trace = TraceHelper.GetTrace(),
             });
         }
 
-        public void DumpToContainer<TArea>(LoggerContainer<TArea> logger) where TArea : Enum {
+        public void DumpToContainer<TContext>(LoggerContainer<TContext> logger) where TContext : Enum {
             foreach(LogLine log in this.logs) {
                 logger.Log(log);
             }
