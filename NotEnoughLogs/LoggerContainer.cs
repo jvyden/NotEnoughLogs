@@ -13,8 +13,9 @@ namespace NotEnoughLogs {
 
         private readonly Task logQueueTask;
         private bool stopSignal = false;
+        private int extraTraceLines;
             
-        public LoggerContainer() {
+        public LoggerContainer(int extraTraceLines = 0) {
             logQueueTask = Task.Factory.StartNew(() => {
                 while(true) {
                     if(!this.logQueue.TryDequeue(out LogLine line)) {
@@ -29,6 +30,8 @@ namespace NotEnoughLogs {
                     }
                 }
             });
+
+            this.extraTraceLines = extraTraceLines;
         }
 
         internal void Log(LogLine line) {
@@ -40,7 +43,7 @@ namespace NotEnoughLogs {
                 Level = level,
                 Context = context,
                 Message = message,
-                Trace = TraceHelper.GetTrace(),
+                Trace = TraceHelper.GetTrace(extraTraceLines: this.extraTraceLines),
             });
         }
 

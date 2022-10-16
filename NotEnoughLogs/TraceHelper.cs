@@ -1,29 +1,43 @@
+#nullable enable
 using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using NotEnoughLogs.Data;
 
 namespace NotEnoughLogs {
     internal static class TraceHelper {
         internal const int DefaultDepth = 5;
-        internal const int SkipDepth = DefaultDepth - 2;
-        
-        internal static LogTrace GetTrace(int depth = DefaultDepth) {
-            string trace = Environment.StackTrace
-                .Split(new char[1] {'\n'}, depth, StringSplitOptions.RemoveEmptyEntries)
-                .Skip(SkipDepth)
-                .First();
 
-            trace = trace.TrimEnd('\r');
-            trace = trace.Substring(trace.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-            trace = trace.Replace(".cs:line ", ":");
+        internal static LogTrace GetTrace(int depth = DefaultDepth, int extraTraceLines = 0) {
+            int skipDepth = depth - 2;
+            
+            StackTrace trace = new StackTrace(true);
+            StackFrame? frame = trace.GetFrame(skipDepth + extraTraceLines);
+            if(frame == null) {
+                return new LogTrace {
+                    Name = string.Empty,
+                    Line = string.Empty,
+                };
+            }
 
-            string[] traceSplit = trace.Split(':');
+            LogTrace logTrace = new LogTrace();
 
-            return new LogTrace {
-                Name = traceSplit[0],
-                Line = traceSplit[1],
-            };
+            string? sourcePath = frame.GetFileName();
+            if(sourcePath != null) {
+                logTrace.Name = Path.GetFileNameWithoutExtension(sourcePath);
+                
+                int line = frame.GetFileLineNumber();
+                logTrace.Line = line == 0 ? frame.GetMethod().Name : line.ToString();
+            }
+            else {
+                logTrace.Name = frame.GetMethod().DeclaringType.Name;
+                logTrace.Line = frame.GetMethod().Name;
+            }
+
+            logTrace.Name ??= string.Empty;
+            logTrace.Line ??= string.Empty;
+            
+            return logTrace;
         }
     }
 }

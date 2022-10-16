@@ -12,3 +12,6 @@ logger.LogError(ExampleContext.Math, "Tried to divide by 0");
 logger.LogCritical(ExampleContext.ErrorHandling, "Assertion error!");
 logger.LogDebug(ExampleContext.Math, "Doing 2+2...");
 logger.LogTrace(ExampleContext.Logger, "Trace deez nuts");
+
+StaticLogger.LogInfo(ExampleContext.Logger, "Static logger test");
+StaticLogger.Dispose();
