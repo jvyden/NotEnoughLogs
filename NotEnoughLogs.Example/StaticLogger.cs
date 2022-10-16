@@ -1,7 +1,7 @@
 using NotEnoughLogs.Loggers;
 
 namespace NotEnoughLogs.Example {
-    public class StaticLogger {
+    public static class StaticLogger {
         private static readonly LoggerContainer<ExampleContext> logger = new(1);
 
         static StaticLogger() {
