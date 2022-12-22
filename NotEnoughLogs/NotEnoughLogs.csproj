@@ -10,8 +10,8 @@
         <Title>NotEnoughLogs</Title>
         <PackageId>NotEnoughLogs</PackageId>
         <Description>A versatile logger built for my personal projects.</Description>
-        <Version>1.0.2</Version>
-        <PackageVersion>1.0.2</PackageVersion>
+        <Version>1.0.3</Version>
+        <PackageVersion>1.0.3</PackageVersion>
         <RepositoryUrl>https://github.com/jvyden/NotEnoughLogs</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageProjectUrl>https://github.com/jvyden/NotEnoughLogs</PackageProjectUrl>
