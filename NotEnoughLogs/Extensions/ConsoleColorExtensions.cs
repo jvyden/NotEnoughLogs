@@ -19,7 +19,6 @@ namespace NotEnoughLogs.Extensions {
         internal static ConsoleColor ToColor(this Level level) {
             switch(level) {
                 case Level.Critical:
-                    return ConsoleColor.Yellow;
                 case Level.Error:
                     return ConsoleColor.Red;
                 

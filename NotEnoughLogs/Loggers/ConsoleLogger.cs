@@ -13,7 +13,6 @@ namespace NotEnoughLogs.Loggers {
             ConsoleColor oldBackground = Console.BackgroundColor;
 
             Console.ForegroundColor = line.Level.ToColor();
-            if(line.Level == Level.Critical) Console.BackgroundColor = ConsoleColor.Red;
 
             Console.WriteLine($"{timestamp} {context} {trace} {line.Message}");
             
