@@ -3,7 +3,7 @@ using NotEnoughLogs.Example;
 using NotEnoughLogs.Loggers;
 
 // It is recommended to store this statically somewhere accessible by your entire application.
-using var logger = new LoggerContainer<ExampleContext>();
+using LoggerContainer<ExampleContext> logger = new LoggerContainer<ExampleContext>();
 logger.RegisterLogger(new ConsoleLogger());
 
 logger.LogInfo(ExampleContext.Startup, "Welcome to NotEnoughLogs!");

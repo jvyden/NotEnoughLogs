@@ -27,6 +27,6 @@ public class MemoryLogger
 
     public void DumpToContainer<TContext>(LoggerContainer<TContext> logger) where TContext : Enum
     {
-        foreach (var log in _logs) logger.Log(log);
+        foreach (LogLine log in _logs) logger.Log(log);
     }
 }

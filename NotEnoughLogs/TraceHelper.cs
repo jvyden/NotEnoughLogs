@@ -11,10 +11,10 @@ internal static class TraceHelper
 
     internal static LogTrace GetTrace(int depth = DefaultDepth, int extraTraceLines = 0)
     {
-        var skipDepth = depth - 2;
+        int skipDepth = depth - 2;
 
-        var trace = new StackTrace(true);
-        var frame = trace.GetFrame(skipDepth + extraTraceLines);
+        StackTrace trace = new StackTrace(true);
+        StackFrame? frame = trace.GetFrame(skipDepth + extraTraceLines);
         if (frame == null)
             return new LogTrace
             {
@@ -22,14 +22,14 @@ internal static class TraceHelper
                 Line = string.Empty
             };
 
-        var logTrace = new LogTrace();
+        LogTrace logTrace = new LogTrace();
 
-        var sourcePath = frame.GetFileName();
+        string? sourcePath = frame.GetFileName();
         if (sourcePath != null)
         {
             logTrace.Name = Path.GetFileNameWithoutExtension(sourcePath);
 
-            var line = frame.GetFileLineNumber();
+            int line = frame.GetFileLineNumber();
             logTrace.Line = line == 0 ? frame.GetMethod().Name : line.ToString();
         }
         else

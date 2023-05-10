@@ -23,7 +23,7 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
         {
             while (true)
             {
-                if (!_logQueue.TryDequeue(out var line))
+                if (!_logQueue.TryDequeue(out LogLine line))
                 {
                     if (_stopSignal) break;
 
@@ -31,7 +31,7 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
                     continue;
                 }
 
-                foreach (var logger in _loggers) logger.Log(line);
+                foreach (LoggerBase logger in _loggers) logger.Log(line);
             }
         });
 
