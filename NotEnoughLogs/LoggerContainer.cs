@@ -5,63 +5,94 @@ using System.Threading;
 using System.Threading.Tasks;
 using NotEnoughLogs.Definitions;
 
-namespace NotEnoughLogs {
-    public class LoggerContainer<TContext> : IDisposable where TContext : Enum {
-        private readonly List<LoggerBase> loggers = new List<LoggerBase>();
-        private readonly ConcurrentQueue<LogLine> logQueue = new ConcurrentQueue<LogLine>();
-        private const int logQueueDelayMs = 20;
+namespace NotEnoughLogs;
 
-        private readonly Task logQueueTask;
-        private bool stopSignal;
-        private readonly int extraTraceLines;
-            
-        public LoggerContainer(int extraTraceLines = 0) {
-            logQueueTask = Task.Factory.StartNew(() => {
-                while(true) {
-                    if(!this.logQueue.TryDequeue(out LogLine line)) {
-                        if(this.stopSignal) break;
-                        
-                        Thread.Sleep(logQueueDelayMs);
-                        continue;
-                    }
+public class LoggerContainer<TContext> : IDisposable where TContext : Enum
+{
+    private readonly List<LoggerBase> _loggers = new();
+    private readonly ConcurrentQueue<LogLine> _logQueue = new();
+    private const int LogQueueDelayMs = 20;
 
-                    foreach(LoggerBase logger in this.loggers) {
-                        logger.Log(line);
-                    }
+    private readonly Task _logQueueTask;
+    private bool _stopSignal;
+    private readonly int _extraTraceLines;
+
+    public LoggerContainer(int extraTraceLines = 0)
+    {
+        _logQueueTask = Task.Factory.StartNew(() =>
+        {
+            while (true)
+            {
+                if (!_logQueue.TryDequeue(out var line))
+                {
+                    if (_stopSignal) break;
+
+                    Thread.Sleep(LogQueueDelayMs);
+                    continue;
                 }
-            });
 
-            this.extraTraceLines = extraTraceLines;
-        }
+                foreach (var logger in _loggers) logger.Log(line);
+            }
+        });
 
-        internal void Log(LogLine line) {
-            this.logQueue.Enqueue(line);
-        }
+        _extraTraceLines = extraTraceLines;
+    }
 
-        private void log(Enum context, Level level, string message) {
-            this.Log(new LogLine {
-                Level = level,
-                Context = context,
-                Message = message,
-                Trace = TraceHelper.GetTrace(extraTraceLines: this.extraTraceLines),
-            });
-        }
+    internal void Log(LogLine line)
+    {
+        _logQueue.Enqueue(line);
+    }
 
-        public void RegisterLogger(LoggerBase logger) {
-            this.loggers.Add(logger);
-        }
+    private void Log(Enum context, Level level, string message)
+    {
+        Log(new LogLine
+        {
+            Level = level,
+            Context = context,
+            Message = message,
+            Trace = TraceHelper.GetTrace(extraTraceLines: _extraTraceLines)
+        });
+    }
 
-        public void LogCritical(TContext context, string message) => this.log(context, Level.Critical, message);
-        public void LogError(TContext context, string message) => this.log(context, Level.Error, message);
-        public void LogWarning(TContext context, string message) => this.log(context, Level.Warning, message);
-        public void LogInfo(TContext context, string message) => this.log(context, Level.Info, message);
-        public void LogDebug(TContext context, string message) => this.log(context, Level.Debug, message);
-        public void LogTrace(TContext context, string message) => this.log(context, Level.Trace, message);
-        
-        public void Dispose() {
-            this.stopSignal = true;
-            this.logQueueTask.Wait();
-            this.logQueueTask.Dispose();
-        }
+    public void RegisterLogger(LoggerBase logger)
+    {
+        _loggers.Add(logger);
+    }
+
+    public void LogCritical(TContext context, string message)
+    {
+        Log(context, Level.Critical, message);
+    }
+
+    public void LogError(TContext context, string message)
+    {
+        Log(context, Level.Error, message);
+    }
+
+    public void LogWarning(TContext context, string message)
+    {
+        Log(context, Level.Warning, message);
+    }
+
+    public void LogInfo(TContext context, string message)
+    {
+        Log(context, Level.Info, message);
+    }
+
+    public void LogDebug(TContext context, string message)
+    {
+        Log(context, Level.Debug, message);
+    }
+
+    public void LogTrace(TContext context, string message)
+    {
+        Log(context, Level.Trace, message);
+    }
+
+    public void Dispose()
+    {
+        _stopSignal = true;
+        _logQueueTask.Wait();
+        _logQueueTask.Dispose();
     }
 }

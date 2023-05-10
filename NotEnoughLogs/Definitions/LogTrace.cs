@@ -1,6 +1,7 @@
-namespace NotEnoughLogs.Definitions {
-    public struct LogTrace {
-        public string Name;
-        public string Line;
-    }
+namespace NotEnoughLogs.Definitions;
+
+public struct LogTrace
+{
+    public string Name;
+    public string Line;
 }
