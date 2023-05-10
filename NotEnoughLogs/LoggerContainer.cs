@@ -11,7 +11,7 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
 {
     private readonly List<LoggerBase> _loggers = new();
     private readonly ConcurrentQueue<LogLine> _logQueue = new();
-    private const int LogQueueDelayMs = 20;
+    private const int LogQueueDelayMs = 5;
 
     private readonly Task _logQueueTask;
     private bool _stopSignal;
