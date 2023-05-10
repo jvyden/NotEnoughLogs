@@ -34,7 +34,7 @@ internal static class TraceHelper
         }
         else
         {
-            logTrace.Name = frame.GetMethod().DeclaringType.Name;
+            logTrace.Name = frame.GetMethod().DeclaringType?.Name;
             logTrace.Line = frame.GetMethod().Name;
         }
 

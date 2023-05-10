@@ -40,6 +40,8 @@ internal static class ConsoleColorExtensions
                 return ConsoleColor.White;
             case Level.Debug:
                 return ConsoleColor.Magenta;
+            default:
+                return ConsoleColor.White;
         }
 #if DEBUG
         Debug.Fail("console color out of range");

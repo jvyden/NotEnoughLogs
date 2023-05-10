@@ -48,13 +48,26 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
         // Copy the message, as we bring it to another thread where it could be garbage collected by the time it's used
         // Should resolve some weird issues
         string messageCopy = string.Copy(message);
+        
+        LogTrace? trace = null;
+
+        try
+        {
+            trace = TraceHelper.GetTrace(extraTraceLines: _extraTraceLines);
+        }
+        catch
+        {
+            // ignored
+        }
+
+        trace ??= new LogTrace();
 
         Log(new LogLine
         {
             Level = level,
             Context = context,
             Message = messageCopy,
-            Trace = TraceHelper.GetTrace(extraTraceLines: _extraTraceLines)
+            Trace = trace.Value,
         });
     }
 
