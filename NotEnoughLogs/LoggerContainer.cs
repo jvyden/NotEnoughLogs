@@ -19,7 +19,7 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
 
     public LoggerContainer(int extraTraceLines = 0)
     {
-        _logQueueTask = Task.Factory.StartNew(() =>
+        _logQueueTask = Task.Factory.StartNew(async () =>
         {
             while (true)
             {
@@ -27,7 +27,7 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
                 {
                     if (_stopSignal) break;
 
-                    Thread.Sleep(LogQueueDelayMs);
+                    await Task.Delay(LogQueueDelayMs);
                     continue;
                 }
 
