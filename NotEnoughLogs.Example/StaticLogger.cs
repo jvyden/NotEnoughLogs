@@ -4,7 +4,7 @@ namespace NotEnoughLogs.Example;
 
 public static class StaticLogger
 {
-    private static readonly LoggerContainer<ExampleContext> Logger = new(1);
+    private static readonly LoggerContainer<ExampleContext> Logger = new();
 
     static StaticLogger()
     {

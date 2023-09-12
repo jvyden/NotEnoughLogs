@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using NotEnoughLogs.Definitions;
 
@@ -15,9 +14,8 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
 
     private readonly Task _logQueueTask;
     private bool _stopSignal;
-    private readonly int _extraTraceLines;
 
-    public LoggerContainer(int extraTraceLines = 0)
+    public LoggerContainer()
     {
         _logQueueTask = Task.Factory.StartNew(async () =>
         {
@@ -34,8 +32,6 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
                 foreach (LoggerBase logger in _loggers) logger.Log(line);
             }
         });
-
-        _extraTraceLines = extraTraceLines;
     }
 
     internal void Log(LogLine line)
@@ -48,26 +44,12 @@ public class LoggerContainer<TContext> : IDisposable where TContext : Enum
         // Copy the message, as we bring it to another thread where it could be garbage collected by the time it's used
         // Should resolve some weird issues
         string messageCopy = string.Copy(message);
-        
-        LogTrace? trace = null;
-
-        try
-        {
-            trace = TraceHelper.GetTrace(extraTraceLines: _extraTraceLines);
-        }
-        catch
-        {
-            // ignored
-        }
-
-        trace ??= new LogTrace();
 
         Log(new LogLine
         {
             Level = level,
             Context = context,
             Message = messageCopy,
-            Trace = trace.Value,
         });
     }
 

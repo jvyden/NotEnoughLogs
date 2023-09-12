@@ -21,7 +21,6 @@ public class MemoryLogger
             Level = level,
             Context = context,
             Message = message,
-            Trace = TraceHelper.GetTrace()
         });
     }
 

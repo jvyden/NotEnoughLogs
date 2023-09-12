@@ -6,22 +6,6 @@ namespace NotEnoughLogs.Extensions;
 
 internal static class ConsoleColorExtensions
 {
-    internal static ConsoleColor ToDark(this ConsoleColor color)
-    {
-        return color switch
-        {
-            ConsoleColor.Blue => ConsoleColor.DarkBlue,
-            ConsoleColor.Cyan => ConsoleColor.DarkCyan,
-            ConsoleColor.Green => ConsoleColor.DarkGreen,
-            ConsoleColor.Gray => ConsoleColor.DarkGray,
-            ConsoleColor.Magenta => ConsoleColor.DarkMagenta,
-            ConsoleColor.Red => ConsoleColor.DarkRed,
-            ConsoleColor.White => ConsoleColor.Gray,
-            ConsoleColor.Yellow => ConsoleColor.DarkYellow,
-            _ => color
-        };
-    }
-
     internal static ConsoleColor ToColor(this Level level)
     {
         switch (level)
@@ -43,9 +27,5 @@ internal static class ConsoleColorExtensions
             default:
                 return ConsoleColor.White;
         }
-#if DEBUG
-        Debug.Fail("console color out of range");
-#endif
-        return ConsoleColor.White;
     }
 }
