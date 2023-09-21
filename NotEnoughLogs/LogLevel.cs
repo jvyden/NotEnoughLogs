@@ -1,6 +1,6 @@
-namespace NotEnoughLogs.Definitions;
+namespace NotEnoughLogs;
 
-public enum Level
+public enum LogLevel : byte
 {
     Critical = 0,
     Error = 1,
