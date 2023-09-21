@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotEnoughLogs.Example", "No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotEnoughLogs.Benchmarks", "NotEnoughLogs.Benchmarks\NotEnoughLogs.Benchmarks.csproj", "{575BD30A-5CB3-4A47-A768-BD283D92DE75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotEnoughLogs.Analyzers", "NotEnoughLogs.Analyzers\NotEnoughLogs.Analyzers.csproj", "{733AFF62-834D-4D5E-B5AA-55C9760B4F20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{575BD30A-5CB3-4A47-A768-BD283D92DE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{575BD30A-5CB3-4A47-A768-BD283D92DE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{575BD30A-5CB3-4A47-A768-BD283D92DE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{733AFF62-834D-4D5E-B5AA-55C9760B4F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{733AFF62-834D-4D5E-B5AA-55C9760B4F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{733AFF62-834D-4D5E-B5AA-55C9760B4F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{733AFF62-834D-4D5E-B5AA-55C9760B4F20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

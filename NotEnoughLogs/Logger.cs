@@ -8,7 +8,7 @@ using NotEnoughLogs.Sinks;
 
 namespace NotEnoughLogs;
 
-public class Logger
+public partial class Logger
 {
     private readonly ReadOnlyCollection<ILoggerSink> _sinks;
     private readonly LoggerConfiguration _configuration;

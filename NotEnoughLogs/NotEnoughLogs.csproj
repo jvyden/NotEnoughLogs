@@ -20,4 +20,11 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NotEnoughLogs.Analyzers\NotEnoughLogs.Analyzers.csproj">
+          <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+          <OutputItemType>Analyzer</OutputItemType>
+      </ProjectReference>
+    </ItemGroup>
 </Project>
