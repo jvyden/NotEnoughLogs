@@ -13,12 +13,11 @@ public abstract class LoggingBehaviour
         // Do nothing by default
     }
 
-    internal abstract void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content);
-    internal abstract void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args);
+    internal abstract void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content);
+    internal abstract void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args);
 
-    protected void LogToSink(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content)
+    protected void LogToSink(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
     {
-        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < this.Sinks.Count; i++)
         {
             ILoggerSink sink = this.Sinks[i];
@@ -26,7 +25,7 @@ public abstract class LoggingBehaviour
         }
     }
     
-    protected void LogToSink(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args)
+    protected void LogToSink(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
     {
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < this.Sinks.Count; i++)

@@ -18,14 +18,9 @@
 
 using NotEnoughLogs;
 using NotEnoughLogs.Behaviour;
-using NotEnoughLogs.Sinks;
 
-Logger logger = new(new []{ new NullSink() }, new LoggerConfiguration
+Logger logger = new(new LoggerConfiguration
 {
     // Behaviour = LoggingBehaviour.ThreadPool
 });
-
-for (int i = 0; i < 5_000_000; i++)
-{
-    logger.Log(LogLevel.Info, "Test"u8, "yo man"u8);
-}
+logger.Log(LogLevel.Info, "Test", "yo man");

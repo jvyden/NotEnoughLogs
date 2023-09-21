@@ -39,21 +39,15 @@ public class Logger
         this._behaviour.Sinks = _sinks;
     }
 
-    // public void Log(LogLevel level, Enum category, ReadOnlySpan<char> content)
-    //     => this._behaviour.Log(level, category.ToString(), content);
-    //
-    // public void Log(LogLevel level, Enum category, ReadOnlySpan<char> format, params object[] args)
-    //     => this._behaviour.Log(level, category.ToString(), format, args);
-    //
-    // public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
-    //     => this._behaviour.Log(level, category, content);
-    //
-    // public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
-    //     => this._behaviour.Log(level, category, format, args);
-    
-    public void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content)
+    public void Log(LogLevel level, Enum category, ReadOnlySpan<char> content)
+        => this._behaviour.Log(level, category.ToString(), content);
+
+    public void Log(LogLevel level, Enum category, ReadOnlySpan<char> format, params object[] args)
+        => this._behaviour.Log(level, category.ToString(), format, args);
+
+    public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
         => this._behaviour.Log(level, category, content);
-    
-    public void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args)
+
+    public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
         => this._behaviour.Log(level, category, format, args);
 }
