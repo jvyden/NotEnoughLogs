@@ -9,7 +9,7 @@ namespace NotEnoughLogs.Benchmarks;
 [SimpleJob(RunStrategy.Throughput, invocationCount: 5_000_000)]
 public class BehaviourBenchmarks
 {
-    [Params(LoggingBehaviour.Queue, LoggingBehaviour.Direct)]
+    // [Params(LoggingBehaviour.Queue, LoggingBehaviour.Direct)]
     public LoggingBehaviour Behaviour;
 
     private readonly List<ILoggerSink> _sinks = new(1)

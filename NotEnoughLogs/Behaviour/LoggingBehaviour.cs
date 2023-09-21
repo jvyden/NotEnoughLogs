@@ -1,15 +1,37 @@
+using System;
+using System.Collections.ObjectModel;
+using NotEnoughLogs.Sinks;
+
 namespace NotEnoughLogs.Behaviour;
 
-public enum LoggingBehaviour : byte
+public abstract class LoggingBehaviour
 {
-    /// <summary>
-    /// The sinks are called directly upon calling Log.
-    /// Minimal allocations, but causes multi-threading issues and blocks.
-    /// </summary>
-    Direct = 0,
-    /// <summary>
-    /// The nuclear option. An entire thread is spun up to handle logs to ensure everything is in order.
-    /// Higher CPU cost, completely prevents multi-threading issues while not blocking.
-    /// </summary>
-    Queue = 1,
+    public ReadOnlyCollection<ILoggerSink> Sinks { get; internal set; }
+
+    internal virtual void Initialize()
+    {
+        // Do nothing by default
+    }
+
+    internal abstract void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content);
+    internal abstract void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args);
+
+    protected void LogToSink(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
+    {
+        for (var i = 0; i < this.Sinks.Count; i++)
+        {
+            ILoggerSink sink = this.Sinks[i];
+            sink.Log(level, category, content);
+        }
+    }
+    
+    protected void LogToSink(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
+    {
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (var i = 0; i < this.Sinks.Count; i++)
+        {
+            ILoggerSink sink = this.Sinks[i];
+            sink.Log(level, category, format, args);
+        }
+    }
 }

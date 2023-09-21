@@ -21,6 +21,6 @@ using NotEnoughLogs.Behaviour;
 
 Logger logger = new(new LoggerConfiguration
 {
-    Behaviour = LoggingBehaviour.ThreadPool
+    // Behaviour = LoggingBehaviour.ThreadPool
 });
 logger.Log(LogLevel.Info, "Test", "yo man");
