@@ -1,3 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using BenchmarkDotNet.Running;
+using NotEnoughLogs.Benchmarks;
 
-Console.WriteLine("Hello, World!");
+BenchmarkRunner.Run<BehaviourBenchmarks>();

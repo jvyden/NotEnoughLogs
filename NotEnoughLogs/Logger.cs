@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NotEnoughLogs.Behaviour;
 using NotEnoughLogs.Sinks;
@@ -68,24 +69,10 @@ public class Logger
             case LoggingBehaviour.Direct:
                 this.LogToSink(level, category, content);
                 break;
-            case LoggingBehaviour.ThreadPool:
-            {
-                // allocate the strings here since we pass off to another thread
-                string categoryStr = category.ToString();
-                string contentStr = content.ToString();
-                
-                Task.Factory.StartNew(() =>
-                {
-                    this.LogToSink(level, categoryStr, contentStr);
-                });
-                break;
-            }
             case LoggingBehaviour.Queue:
             {
                 // allocate the strings here since we pass off to the queue
-                string categoryStr = category.ToString();
-                string contentStr = content.ToString();
-                _logQueue.Value.Enqueue((level, categoryStr, contentStr, null));
+                _logQueue.Value.Enqueue((level, category.ToString(), content.ToString(), null));
                 break;
             }
             default:
