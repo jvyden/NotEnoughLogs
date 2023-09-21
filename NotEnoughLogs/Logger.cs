@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +9,6 @@ namespace NotEnoughLogs;
 
 public partial class Logger
 {
-    private readonly ReadOnlyCollection<ILoggerSink> _sinks;
     private readonly LoggerConfiguration _configuration;
     private readonly LoggingBehaviour _behaviour;
     
@@ -19,10 +17,8 @@ public partial class Logger
         configuration ??= LoggerConfiguration.Default;
         _configuration = configuration;
         
-        this._sinks = sinks.ToList().AsReadOnly();
-        
         this._behaviour = _configuration.Behaviour;
-        this._behaviour.Sinks = _sinks;
+        this._behaviour.Sinks = sinks.ToList().AsReadOnly();
     }
 
     public Logger(LoggerConfiguration? configuration = null)
@@ -30,24 +26,38 @@ public partial class Logger
         configuration ??= LoggerConfiguration.Default;
         _configuration = configuration;
         
-        this._sinks = new List<ILoggerSink>
+        ReadOnlyCollection<ILoggerSink> sinks = new List<ILoggerSink>(1)
         {
             new ConsoleSink()
         }.AsReadOnly();
         
         this._behaviour = _configuration.Behaviour;
-        this._behaviour.Sinks = _sinks;
+        this._behaviour.Sinks = sinks;
     }
 
+    private bool CanLog(LogLevel level) => level <= _configuration.MaxLevel;
+
     public void Log(LogLevel level, Enum category, ReadOnlySpan<char> content)
-        => this._behaviour.Log(level, category.ToString(), content);
+    {
+        if (!CanLog(level)) return;
+        this._behaviour.Log(level, category.ToString(), content);
+    }
 
     public void Log(LogLevel level, Enum category, ReadOnlySpan<char> format, params object[] args)
-        => this._behaviour.Log(level, category.ToString(), format, args);
+    {
+        if (!CanLog(level)) return;
+        this._behaviour.Log(level, category.ToString(), format, args);
+    }
 
     public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
-        => this._behaviour.Log(level, category, content);
+    {
+        if (!CanLog(level)) return;
+        this._behaviour.Log(level, category, content);
+    }
 
     public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
-        => this._behaviour.Log(level, category, format, args);
+    {
+        if (!CanLog(level)) return;
+        this._behaviour.Log(level, category, format, args);
+    }
 }

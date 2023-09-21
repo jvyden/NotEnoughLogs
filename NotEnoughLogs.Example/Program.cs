@@ -1,9 +1,11 @@
 using NotEnoughLogs;
+using NotEnoughLogs.Behaviour;
 using NotEnoughLogs.Example;
 
 Logger logger = new(new LoggerConfiguration
 {
-    // Behaviour = LoggingBehaviour.ThreadPool
+    Behaviour = new DirectLoggingBehaviour(),
+    MaxLevel = LogLevel.Trace
 });
 logger.LogInfo(ExampleCategory.Startup, "Welcome to NotEnoughLogs!");
 logger.LogWarning(ExampleCategory.ErrorHandling, "Something may have gone wrong...");
