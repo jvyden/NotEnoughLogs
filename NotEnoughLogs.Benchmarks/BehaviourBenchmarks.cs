@@ -9,8 +9,6 @@ namespace NotEnoughLogs.Benchmarks;
 [SimpleJob(RunStrategy.Throughput, invocationCount: 5_000_000)]
 public class BehaviourBenchmarks
 {
-    // [Params(LoggingBehaviour.Queue, LoggingBehaviour.Direct)]
-    public LoggingBehaviour Behaviour;
 
     private readonly List<ILoggerSink> _sinks = new(1)
     {
@@ -24,13 +22,13 @@ public class BehaviourBenchmarks
     {
         this._logger = new Logger(_sinks, new LoggerConfiguration
         {
-            Behaviour = this.Behaviour
+            Behaviour = new DirectLoggingBehaviour()
         });
     }
     
     [Benchmark]
     public void Logic()
     {
-        this._logger.Log(LogLevel.Info, "Category", "ContentContentContentContentContentContentContentContentContentContent");
+        this._logger.Log(LogLevel.Info, "Category"u8, "ContentContentContentContentContentContentContentContentContentContent"u8);
     }
 }

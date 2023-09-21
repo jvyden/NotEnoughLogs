@@ -1,28 +1,38 @@
 using System;
+using System.Text;
 
 namespace NotEnoughLogs.Sinks;
 
 public class ConsoleSink : ILoggerSink
 {
-    public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
+    public void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content)
     {
-        WriteBracketed(level.ToString());
+        WriteBracketed(Encoding.UTF8.GetBytes(level.ToString()));
         Console.Write(' ');
         WriteBracketed(category);
         Console.Write(' ');
         
-        Console.Out.WriteLine(content);
+        WriteByteArray(content);
+        Console.WriteLine();
     }
 
-    public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
+    public void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args)
     {
-        this.Log(level, category, string.Format(format.ToString(), args));
+        this.Log(level, category, Encoding.UTF8.GetBytes(string.Format(format.ToString(), args)));
     }
 
-    private static void WriteBracketed(ReadOnlySpan<char> span)
+    private static void WriteBracketed(ReadOnlySpan<byte> span)
     {
         Console.Write('[');
-        Console.Out.Write(span);
+        WriteByteArray(span);
         Console.Write(']');
+    }
+
+    private static void WriteByteArray(ReadOnlySpan<byte> span)
+    {
+        foreach (byte b in span)
+        {
+            Console.Out.Write((char)b);
+        }
     }
 }

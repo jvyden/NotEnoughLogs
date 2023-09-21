@@ -8,12 +8,12 @@ namespace NotEnoughLogs.Behaviour;
 /// </summary>
 public class DirectLoggingBehaviour : LoggingBehaviour
 {
-    internal override void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
+    internal override void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content)
     {
         this.LogToSink(level, category, content);
     }
 
-    internal override void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
+    internal override void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args)
     {
         this.LogToSink(level, category, format, args);
     }

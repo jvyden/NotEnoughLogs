@@ -10,7 +10,7 @@ namespace NotEnoughLogs.Behaviour;
 /// </summary>
 public class QueueLoggingBehaviour : LoggingBehaviour
 {
-    private readonly ConcurrentQueue<(LogLevel level, string category, string format, object[]? args)> _logQueue = new();
+    private readonly ConcurrentQueue<(LogLevel level, byte[] category, byte[] format, object[]? args)> _logQueue = new();
 
     internal override void Initialize()
     {
@@ -18,7 +18,7 @@ public class QueueLoggingBehaviour : LoggingBehaviour
         {
             while (true)
             {
-                if(!_logQueue.TryDequeue(out (LogLevel level, string category, string format, object[]? args) logLine)) continue;
+                if(!_logQueue.TryDequeue(out (LogLevel level, byte[] category, byte[] format, object[]? args) logLine)) continue;
 
                 if (logLine.args == null) this.LogToSink(logLine.level, logLine.category, logLine.format);
                 else this.LogToSink(logLine.level, logLine.category, logLine.format, logLine.args);
@@ -28,13 +28,13 @@ public class QueueLoggingBehaviour : LoggingBehaviour
         thread.Start();
     }
 
-    internal override void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
+    internal override void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content)
     {
-        this._logQueue.Enqueue((level, category.ToString(), content.ToString(), null));
+        this._logQueue.Enqueue((level, category.ToArray(), content.ToArray(), null));
     }
 
-    internal override void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
+    internal override void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args)
     {
-        this._logQueue.Enqueue((level, category.ToString(), format.ToString(), args));
+        this._logQueue.Enqueue((level, category.ToArray(), format.ToArray(), args));
     }
 }

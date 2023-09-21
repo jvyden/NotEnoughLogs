@@ -4,6 +4,6 @@ namespace NotEnoughLogs.Sinks;
 
 public interface ILoggerSink
 {
-    void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content);
-    void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args);
+    void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> content);
+    void Log(LogLevel level, ReadOnlySpan<byte> category, ReadOnlySpan<byte> format, params object[] args);
 }
