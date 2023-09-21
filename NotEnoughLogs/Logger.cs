@@ -7,7 +7,7 @@ using NotEnoughLogs.Sinks;
 
 namespace NotEnoughLogs;
 
-public partial class Logger
+public partial class Logger : IDisposable
 {
     private readonly LoggerConfiguration _configuration;
     private readonly LoggingBehaviour _behaviour;
@@ -59,5 +59,13 @@ public partial class Logger
     {
         if (!CanLog(level)) return;
         this._behaviour.Log(level, category, format, args);
+    }
+
+    public void Dispose()
+    {
+        if (this._behaviour is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
     }
 }
