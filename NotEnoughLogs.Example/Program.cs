@@ -5,8 +5,6 @@ Logger logger = new(new LoggerConfiguration
 {
     // Behaviour = LoggingBehaviour.ThreadPool
 });
-logger.Log(LogLevel.Info, "Test", "yo man");
-
 logger.LogInfo(ExampleCategory.Startup, "Welcome to NotEnoughLogs!");
 logger.LogWarning(ExampleCategory.ErrorHandling, "Something may have gone wrong...");
 logger.LogError(ExampleCategory.Math, "Tried to divide by 0");
