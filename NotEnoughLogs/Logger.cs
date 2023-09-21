@@ -19,6 +19,7 @@ public partial class Logger : IDisposable
         
         this._behaviour = _configuration.Behaviour;
         this._behaviour.Sinks = sinks.ToList().AsReadOnly();
+        this._behaviour.Initialize();
     }
 
     public Logger(LoggerConfiguration? configuration = null)
@@ -33,6 +34,7 @@ public partial class Logger : IDisposable
         
         this._behaviour = _configuration.Behaviour;
         this._behaviour.Sinks = sinks;
+        this._behaviour.Initialize();
     }
 
     private bool CanLog(LogLevel level) => level <= _configuration.MaxLevel;
