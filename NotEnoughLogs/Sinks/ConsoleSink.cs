@@ -6,19 +6,22 @@ public class ConsoleSink : ILoggerSink
 {
     public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> content)
     {
-        ConsoleColor oldColor = Console.ForegroundColor;
-        Console.ForegroundColor = LogColor(level);
+        lock (Console.Out)
+        {
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = LogColor(level);
         
-        DateTime time = DateTime.Now;
-        WriteBracketed($"{time:MM/dd/yy} {time:HH:mm:ss}");
-        Console.Write(' ');
-        WriteBracketed(level.ToString());
-        Console.Write(' ');
-        WriteBracketed(category);
-        Console.Write(' ');
+            DateTime time = DateTime.Now;
+            WriteBracketed($"{time:MM/dd/yy} {time:HH:mm:ss}");
+            Console.Write(' ');
+            WriteBracketed(level.ToString());
+            Console.Write(' ');
+            WriteBracketed(category);
+            Console.Write(' ');
         
-        Console.Out.WriteLine(content);
-        Console.ForegroundColor = oldColor;
+            Console.Out.WriteLine(content);
+            Console.ForegroundColor = oldColor;
+        }
     }
 
     public void Log(LogLevel level, ReadOnlySpan<char> category, ReadOnlySpan<char> format, params object[] args)
